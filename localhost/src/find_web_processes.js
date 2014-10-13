@@ -4,7 +4,8 @@
 * really need to show up.
 */
 var IGNORED_PROCESSES = [
-  'dropbox'
+  'dropbox',
+  'livereloa'
 ];
 
 /**
