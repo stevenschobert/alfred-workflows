@@ -24,7 +24,7 @@ function getProcesses() {
   var app, pids, pidParts, processInfo, commandInfo, runningDir;
 
   app = Application.currentApplication();
-  app.includeStandardAdditions = true
+  app.includeStandardAdditions = true;
 
   pids = app.doShellScript("lsof -Pni4 | grep LISTEN | grep '\*' | awk '{print $1, $2, $9}'").split('\r');
 
@@ -54,12 +54,13 @@ function getProcesses() {
 */
 function processToAlfredItem(process) {
   var running = 'localhost:' + process.port;
-  var url = 'http://' + running
+  var url = 'http://' + running;
+
   return {
     title: running + ' ~ ' + process.name,
     subtitle: process.directory + '  ' + process.command,
     arg: url
-  }
+  };
 }
 
 
@@ -122,8 +123,8 @@ function run() {
   var ignoredExp, processKeys;
 
   ignoredExp = '(';
-  for (var i=0; i<IGNORED_PROCESSES.length; i++) {
-    ignoredExp = ignoredExp + (i == 0 ? '' : '|') + IGNORED_PROCESSES[i];
+  for (var k=0; k<IGNORED_PROCESSES.length; k++) {
+    ignoredExp = ignoredExp + (k === 0 ? '' : '|') + IGNORED_PROCESSES[k];
   }
   ignoredExp = ignoredExp + ')';
   ignoredExp = new RegExp(ignoredExp, 'i');
@@ -142,7 +143,7 @@ function run() {
     }
   }
 
-  if (alfredItems.length == 0) {
+  if (alfredItems.length === 0) {
     alfredItems.push({
       title: 'No running processes found.',
       subtitle: 'Try a different search query, or start a process on localhost.',
