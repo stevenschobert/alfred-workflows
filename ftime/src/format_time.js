@@ -51,7 +51,8 @@ function formatsForDate(time) {
     Unix: time.format('x'),
     ISO: time.toISOString(),
     "MM-DD-YYYY HH:mm Z": time.format("MM-DD-YYYY HH:mm Z"),
-    "YYYY-MM-DD HH:mm Z": time.format("YYYY-MM-DD HH:mm Z")
+    "YYYY-MM-DD HH:mm Z": time.format("YYYY-MM-DD HH:mm Z"),
+    "YYYYMMDDHHmmss": time.format("YYYYMMDDHHmmss")
   };
 }
 
