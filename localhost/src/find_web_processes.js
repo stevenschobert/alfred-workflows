@@ -5,7 +5,10 @@
 */
 var IGNORED_PROCESSES = [
   'dropbox',
-  'livereloa'
+  'livereloa',
+  'adobe',
+  'agilebits',
+  'creative'
 ];
 
 /**
@@ -27,7 +30,7 @@ function getProcesses() {
   app = Application.currentApplication();
   app.includeStandardAdditions = true;
 
-  pids = app.doShellScript("lsof -Pni4 | grep LISTEN | grep '\*' | awk '{print $1, $2, $9}'").split('\r');
+  pids = app.doShellScript("lsof -iTCP -sTCP:LISTEN -P -n | awk 'NR>1{print $1, $2, $9}'").split('\r');
 
   for (var i=0; i<pids.length; i++) {
     pidParts = pids[i].split(' ');
@@ -122,6 +125,7 @@ function run() {
   var queryExp = new RegExp(query, 'i');
   var alfredItems = [];
   var ignoredExp, processKeys;
+  var ignored = false;
 
   ignoredExp = '(';
   for (var k=0; k<IGNORED_PROCESSES.length; k++) {
@@ -132,12 +136,16 @@ function run() {
 
   for (var i=0; i<processes.length; i++) {
     processKeys = Object.keys(processes[i]);
-    for (var j=0; j<processKeys.length; j++) {
-      if (ignoredExp.test(processes[i][processKeys[j]])) {
-        break;
-      }
+    ignored = false;
 
-      if (queryExp.test(processes[i][processKeys[j]])) {
+    for (var j=0; !ignored && j<processKeys.length; j++) {
+      if (ignoredExp.test(processes[i][processKeys[j]])) {
+        ignored = true;
+      }
+    }
+
+    for (var k=0; !ignored && k<processKeys.length; k++) {
+      if (queryExp.test(processes[i][processKeys[k]])) {
         alfredItems.push(processToAlfredItem(processes[i]));
         break;
       }
