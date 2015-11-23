@@ -8,7 +8,8 @@ var IGNORED_PROCESSES = [
   'livereloa',
   'adobe',
   'agilebits',
-  'creative'
+  'creative',
+  'boom'
 ];
 
 /**
